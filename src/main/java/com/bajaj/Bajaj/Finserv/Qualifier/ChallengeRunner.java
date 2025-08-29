@@ -19,7 +19,7 @@ public class ChallengeRunner implements CommandLineRunner {
         System.out.println(" Starting the Bajaj Finserv Health Challenge process...");
 
         try {
-            // --- Step 1: Generate Webhook ---
+
             System.out.println("Step 1: Generating webhook...");
             RegistrationRequest registrationRequest = new RegistrationRequest(
                     "Mudunuri Rahul Varma",
@@ -28,10 +28,10 @@ public class ChallengeRunner implements CommandLineRunner {
             );
             String generateWebhookUrl = "https://bfhldevapigw.healthrx.co.in/hiring/generateWebhook/JAVA";
 
-            // Use postForObject now that we have confirmed the DTO mapping is correct
+
             WebhookResponse webhookResponse = restTemplate.postForObject(generateWebhookUrl, registrationRequest, WebhookResponse.class);
 
-            // Check if the response body or access token is null
+
             if (webhookResponse == null || webhookResponse.getAccessToken() == null) {
                 System.err.println("Failed to get a valid webhook response. The response body was empty or incomplete.");
                 return;
@@ -43,13 +43,13 @@ public class ChallengeRunner implements CommandLineRunner {
             System.out.println(" Webhook and Token received successfully!");
             System.out.println("   - Webhook URL: " + webhookUrl);
 
-            // --- Step 2: Prepare the SQL Query ---
+           
             System.out.println("\nStep 2: Preparing SQL query...");
             String sqlQuery = "SELECT p.AMOUNT AS SALARY, CONCAT(e.FIRST_NAME, ' ', e.LAST_NAME) AS NAME, TIMESTAMPDIFF(YEAR, e.DOB, CURDATE()) AS AGE, d.DEPARTMENT_NAME FROM PAYMENTS p JOIN EMPLOYEE e ON p.EMP_ID = e.EMP_ID JOIN DEPARTMENT d ON e.DEPARTMENT = d.DEPARTMENT_ID WHERE EXTRACT(DAY FROM p.PAYMENT_TIME) <> 1 ORDER BY p.AMOUNT DESC LIMIT 1;";
             System.out.println(" SQL Query prepared.");
 
 
-            // --- Step 3: Submit the Solution ---
+
             System.out.println("\nStep 3: Submitting the solution...");
             HttpHeaders headers = new HttpHeaders();
             headers.set("Authorization", accessToken);
@@ -71,7 +71,7 @@ public class ChallengeRunner implements CommandLineRunner {
             System.out.println("\n Challenge process completed!");
 
         } catch (HttpClientErrorException e) {
-            // This block will catch HTTP errors (like 400, 500) and print the server's response
+
             System.err.println(" An error occurred during the API call!");
             System.err.println("   - HTTP Status Code: " + e.getStatusCode());
             System.err.println("   - Server Error Message: " + e.getResponseBodyAsString());
