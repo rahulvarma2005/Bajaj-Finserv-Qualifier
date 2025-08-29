@@ -6,9 +6,9 @@ import lombok.Data;
 @Data
 public class WebhookResponse {
 
-    @JsonProperty("webhook") // Corrected from "webhook_url"
+    @JsonProperty("webhook")
     private String webhookUrl;
 
-    @JsonProperty("accessToken") // Corrected from "access_token"
+    @JsonProperty("accessToken")
     private String accessToken;
 }
